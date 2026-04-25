@@ -1,5 +1,6 @@
-import { Brain, RefreshCw, GitCompare, Calculator, Sparkles } from "lucide-react";
+import { Brain, RefreshCw, GitCompare, Calculator, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const modules = [
   { icon: Brain, name: "IA Descritiva", desc: "Gera descrições persuasivas de cada veículo automaticamente." },
@@ -23,8 +24,10 @@ const Expansion = () => {
             <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
               Não pague pelo que não usa. Comece com o essencial e ative módulos avançados quando a loja pedir.
             </p>
-            <Button variant="outlineGlow" size="lg" className="mt-8" asChild>
-              <a href="#planos">Ver catálogo completo</a>
+            <Button variant="hero" size="lg" className="mt-8" asChild>
+              <Link to="/adicionais">
+                Ver todos os adicionais <ArrowRight className="w-4 h-4" />
+              </Link>
             </Button>
           </div>
 
