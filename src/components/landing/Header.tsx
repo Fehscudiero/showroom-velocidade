@@ -12,7 +12,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60">
+    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/85 border-b border-border shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         <a href="#" className="flex items-center gap-2 font-display font-bold text-lg">
           <span className="grid place-items-center w-9 h-9 rounded-lg bg-gradient-primary text-primary-foreground shadow-glow">
