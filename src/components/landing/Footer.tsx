@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
-    <footer id="login" className="border-t border-border/60 bg-muted/20">
+    <footer id="login" className="border-t border-border bg-muted/40">
       <div className="container py-16">
         <div className="grid md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 mb-12">
           <div>
@@ -61,7 +61,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border/60 flex flex-col sm:flex-row justify-between gap-4 text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-border flex flex-col sm:flex-row justify-between gap-4 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Showroom de Bolso. Todos os direitos reservados.</p>
           <p>Feito com performance obsessiva no Brasil 🇧🇷</p>
         </div>
