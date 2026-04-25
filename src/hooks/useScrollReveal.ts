@@ -25,16 +25,18 @@ export const useScrollReveal = <T extends HTMLElement = HTMLElement>(options?: {
     const targets = el.querySelectorAll<HTMLElement>(selector);
     if (!targets.length) return;
 
+    gsap.set(targets, { opacity: 0, y: options?.y ?? 40 });
+    
     const ctx = gsap.context(() => {
-      gsap.from(targets, {
-        opacity: 0,
-        y: options?.y ?? 40,
+      gsap.to(targets, {
+        opacity: 1,
+        y: 0,
         duration: options?.duration ?? 0.9,
         ease: "power3.out",
         stagger: options?.stagger ?? 0.12,
         scrollTrigger: {
           trigger: el,
-          start: options?.start ?? "top 80%",
+          start: options?.start ?? "top 85%",
           toggleActions: "play none none reverse",
         },
       });
@@ -65,18 +67,20 @@ export const useTextReveal = <T extends HTMLElement = HTMLElement>(delay = 0) =>
       )
       .join(" ");
 
+    gsap.set(el.querySelectorAll<HTMLElement>("[data-word]"), { opacity: 0, yPercent: 110 });
+    
     const wordEls = el.querySelectorAll<HTMLElement>("[data-word]");
     const ctx = gsap.context(() => {
-      gsap.from(wordEls, {
-        yPercent: 110,
-        opacity: 0,
+      gsap.to(wordEls, {
+        opacity: 1,
+        yPercent: 0,
         duration: 0.8,
         ease: "power3.out",
         stagger: 0.06,
         delay,
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
+          start: "top 90%",
           toggleActions: "play none none reverse",
         },
       });

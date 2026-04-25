@@ -18,20 +18,22 @@ const Hero = () => {
         .from("[data-hero-title] > span, [data-hero-title]", { y: 40, opacity: 0, duration: 0.9 }, "-=0.3")
         .from("[data-hero-text]", { y: 30, opacity: 0, duration: 0.8 }, "-=0.5")
         .from("[data-hero-cta]", { y: 20, opacity: 0, duration: 0.6, stagger: 0.1 }, "-=0.4")
-        .from("[data-hero-stat]", { y: 30, opacity: 0, duration: 0.6, stagger: 0.12 }, "-=0.3")
-        .from(imageRef.current, { x: 60, opacity: 0, duration: 1 }, "-=1");
+        .from("[data-hero-stat]", { y: 30, opacity: 0, duration: 0.6, stagger: 0.12 }, "-=0.3");
+      
+      if (imageRef.current) {
+        tl.from(imageRef.current, { x: 60, opacity: 0, duration: 1 }, "-=1");
 
-      // Parallax sutil na imagem
-      gsap.to(imageRef.current, {
-        yPercent: -10,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+        gsap.to(imageRef.current, {
+          yPercent: -10,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
