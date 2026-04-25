@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, Star } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const plans = [
   {
@@ -52,15 +53,16 @@ const plans = [
 ];
 
 const Pricing = () => {
+  const ref = useScrollReveal<HTMLElement>({ stagger: 0.15 });
   return (
-    <section id="planos" className="py-24 bg-muted/30 border-y border-border/60">
+    <section ref={ref} id="planos" className="py-24 bg-muted/40 border-y border-border">
       <div className="container">
         <div className="max-w-2xl mx-auto text-center mb-16">
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">Planos</span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight">
+          <span data-reveal className="text-sm font-semibold text-primary uppercase tracking-wider">Planos</span>
+          <h2 data-reveal className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight">
             Escolha o tamanho do seu <span className="text-gradient-primary">showroom.</span>
           </h2>
-          <p className="mt-5 text-muted-foreground text-lg">
+          <p data-reveal className="mt-5 text-muted-foreground text-lg">
             Setup único + mensalidade. Sem fidelidade engessada, sem letra miúda.
           </p>
         </div>
@@ -68,11 +70,12 @@ const Pricing = () => {
         <div className="grid lg:grid-cols-3 gap-6 items-stretch">
           {plans.map((p) => (
             <div
+              data-reveal
               key={p.name}
               className={`relative rounded-2xl p-8 border transition-all flex flex-col ${
                 p.highlight
-                  ? "border-primary bg-gradient-card shadow-glow lg:scale-105 lg:-my-2"
-                  : "border-border bg-gradient-card hover:border-primary/40"
+                  ? "border-primary bg-card shadow-glow lg:scale-105 lg:-my-2"
+                  : "border-border bg-card shadow-card hover:shadow-elevated hover:border-primary/40 hover:-translate-y-1"
               }`}
             >
               {p.highlight && (

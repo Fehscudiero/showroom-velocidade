@@ -1,4 +1,5 @@
 import { Gauge, MessageCircle, FileText, BadgeCheck, Filter, ImageIcon } from "lucide-react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const features = [
   {
@@ -40,14 +41,15 @@ const features = [
 ];
 
 const Features = () => {
+  const ref = useScrollReveal<HTMLElement>({ stagger: 0.1 });
   return (
-    <section id="features" className="py-24 relative overflow-hidden">
+    <section ref={ref} id="features" className="py-24 relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/10 rounded-full blur-[120px] pointer-events-none" aria-hidden />
 
       <div className="container relative">
         <div className="max-w-2xl mb-16">
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">Tecnologia + ferramentas</span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight">
+          <span data-reveal className="text-sm font-semibold text-primary uppercase tracking-wider">Tecnologia + ferramentas</span>
+          <h2 data-reveal className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight">
             Velocidade absurda. <br />
             <span className="text-gradient-primary">Vendas no automático.</span>
           </h2>
@@ -56,8 +58,9 @@ const Features = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f) => (
             <div
+              data-reveal
               key={f.title}
-              className="group relative p-7 rounded-2xl border border-border bg-gradient-card hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              className="group relative p-7 rounded-2xl border border-border bg-card shadow-card hover:shadow-elevated hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/15 transition-all" aria-hidden />
               <div className="relative">
