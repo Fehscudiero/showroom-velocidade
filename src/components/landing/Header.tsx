@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, Car, LogOut } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+// Importação da logo
+import logoImg from "@/assets/logo.png";
 
 const Header = () => {
   const { setAuthModalOpen, setAuthView, user, signOut } = useAuth();
@@ -14,82 +16,142 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/85 border-b border-border shadow-sm">
-      <div className="container max-w-7xl flex h-14 md:h-16 items-center justify-between">
-        <a href="#" className="flex items-center gap-2 font-display font-bold text-lg">
-          <span className="grid place-items-center w-8 h-8 md:w-9 md:h-9 rounded-lg bg-gradient-primary text-primary-foreground shadow-glow">
-            <Car className="w-4 h-4 md:w-5 md:h-5" />
-          </span>
-          <span className="text-base md:text-lg">Showroom<span className="text-primary">.</span></span>
+    <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/80 border-b border-border shadow-sm transition-all duration-300">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex h-16 md:h-24 items-center justify-between">
+        {/* ── LOGO COM TAMANHOS RESPONSIVOS ── */}
+        <a
+          href="#"
+          className="flex items-center transition-transform hover:scale-105 active:scale-95"
+        >
+          <img
+            src={logoImg}
+            alt="Logo da Empresa"
+            // h-10: 40px no Mobile
+            // md:h-14: 56px no Tablet/Desktop médio
+            // lg:h-16: 64px no Desktop grande
+            className="h-10 md:h-14 lg:h-16 w-auto object-contain transition-all duration-300"
+          />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-sm text-muted-foreground">
+        {/* ── NAVEGAÇÃO DESKTOP ── */}
+        <nav className="hidden lg:flex items-center gap-8 text-sm text-white/80">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">
+            <a
+              key={l.href}
+              href={l.href}
+              className="font-medium hover:text-white hover:underline underline-offset-4 decoration-2 decoration-primary/50 transition-all"
+            >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        {/* ── AÇÕES DESKTOP ── */}
+        <div className="hidden lg:flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3 mr-2">
-              <span className="text-sm font-medium text-foreground">
-                Olá, {user.user_metadata?.full_name?.split(' ')[0] || 'Lojista'}
+            <div className="flex items-center gap-3 mr-2 bg-white/10 px-3 py-1.5 rounded-full border border-white/10">
+              <span className="text-sm font-medium text-white">
+                Olá, {user.user_metadata?.full_name?.split(" ")[0] || "Lojista"}
               </span>
-              <Button variant="ghost" size="icon" onClick={() => signOut()} title="Sair">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full text-white/70 hover:bg-destructive/10 hover:text-destructive"
+                onClick={() => signOut()}
+                title="Sair"
+              >
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
           ) : (
-            <Button variant="ghost" size="sm" onClick={() => { setAuthView('login'); setAuthModalOpen(true); }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="font-semibold text-white hover:bg-white/10"
+              onClick={() => {
+                setAuthView("login");
+                setAuthModalOpen(true);
+              }}
+            >
               Login do Lojista
             </Button>
           )}
-          <Button variant="hero" size="sm" asChild>
+          <Button
+            variant="hero"
+            size="sm"
+            className="font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
+            asChild
+          >
             <a href="#planos">Agendar demo</a>
           </Button>
         </div>
 
+        {/* ── BOTÃO MENU MOBILE ── */}
         <button
-          className="lg:hidden text-foreground p-2"
+          className="lg:hidden text-white p-2 rounded-md hover:bg-white/10 transition-colors"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
-          {open ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
+      {/* ── MENU MOBILE EXPANDIDO ── */}
       {open && (
-        <div className="lg:hidden border-t border-border/60 bg-background/95">
-          <div className="container max-w-7xl py-4 flex flex-col gap-3">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="py-2 text-muted-foreground hover:text-foreground"
-              >
-                {l.label}
-              </a>
-            ))}
-            <div className="flex flex-col gap-2 pt-2">
+        <div className="lg:hidden border-t border-border/60 bg-black/95 backdrop-blur-md shadow-xl animate-in slide-in-from-top-2">
+          <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
+            <nav className="flex flex-col gap-2">
+              {links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="px-4 py-3 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex flex-col gap-3 pt-4 border-t border-border/60">
               {user ? (
                 <>
-                  <div className="py-2 text-sm font-medium text-foreground text-center">
-                    Olá, {user.user_metadata?.full_name?.split(' ')[0] || 'Lojista'}
+                  <div className="px-4 py-2 text-sm font-semibold text-white text-center bg-white/10 rounded-lg">
+                    Olá,{" "}
+                    {user.user_metadata?.full_name?.split(" ")[0] || "Lojista"}
                   </div>
-                  <Button variant="outline" onClick={() => { signOut(); setOpen(false); }}>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-center text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                    onClick={() => {
+                      signOut();
+                      setOpen(false);
+                    }}
+                  >
                     Sair da Conta
                   </Button>
                 </>
               ) : (
-                <Button variant="outlineGlow" onClick={() => { setAuthView('login'); setAuthModalOpen(true); setOpen(false); }}>
+                <Button
+                  variant="outlineGlow"
+                  className="w-full justify-center h-12"
+                  onClick={() => {
+                    setAuthView("login");
+                    setAuthModalOpen(true);
+                    setOpen(false);
+                  }}
+                >
                   Login do Lojista
                 </Button>
               )}
-              <Button variant="hero" asChild>
-                <a href="#planos">Agendar demo</a>
+              <Button
+                variant="hero"
+                className="w-full justify-center h-12 text-base font-bold"
+                asChild
+              >
+                <a href="#planos" onClick={() => setOpen(false)}>
+                  Agendar demo
+                </a>
               </Button>
             </div>
           </div>

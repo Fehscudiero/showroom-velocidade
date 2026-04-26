@@ -2,74 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Showroom de Bolso — Design System
-   Cores em HSL. Tema escuro premium automotivo.
-*/
+/*
+ * ═══════════════════════════════════════════════════════════════
+ *  SHOWROOM DE BOLSO — SISTEMA DE TEMAS
+ * ═══════════════════════════════════════════════════════════════
+ *  Para trocar o tema do site, altere o atributo data-theme
+ *  no elemento <html> do index.html:
+ *
+ *    Vermelho (padrão) : <html data-theme="vermelho">
+ *    Azul              : <html data-theme="azul">
+ *
+ *  Todos os componentes usam hsl(var(--*)) — zero edição extra.
+ * ═══════════════════════════════════════════════════════════════
+ */
 
+/* ─── TEMA: VERMELHO AUTOMOTIVO (padrão) ─────────────────────── */
 @layer base {
-  :root {
-    /* Tema claro profissional */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+  :root,
+  [data-theme="vermelho"] {
+    /* Superfícies — base clara: branco puro + cinzas frios */
+    --background:        0 0% 100%;        /* #FFFFFF */
+    --foreground:        0 0% 8%;          /* #141414 — quase preto */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card:              0 0% 99%;         /* off-white elegante */
+    --card-foreground:   0 0% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover:           0 0% 99%;
+    --popover-foreground: 0 0% 8%;
 
-    /* Azul performance — primário/CTA */
-    --primary: 217 91% 50%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 217 91% 60%;
+    /* Vermelho Racing — cor primária / CTAs */
+    --primary:           4 86% 54%;        /* #EE3F2C — vermelho Ferrari */
+    --primary-foreground: 0 0% 100%;       /* branco */
+    --primary-glow:      4 86% 65%;        /* vermelho mais suave p/ glow */
 
-    /* Âmbar — apoio/destaque */
-    --secondary: 38 96% 50%;
-    --secondary-foreground: 222 47% 11%;
+    /* Cinza escuro — secundário / apoio */
+    --secondary:         0 0% 16%;         /* #292929 */
+    --secondary-foreground: 0 0% 98%;      /* branco */
 
-    --muted: 215 25% 96%;
-    --muted-foreground: 215 16% 45%;
+    --muted:             0 0% 95%;         /* cinza clarinho */
+    --muted-foreground:  0 0% 42%;         /* cinza médio — texto suave */
 
-    --accent: 215 25% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent:            0 0% 93%;
+    --accent-foreground: 0 0% 8%;
 
-    --destructive: 0 84% 55%;
+    --destructive:       0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 70% 40%;
+    --success:           142 70% 40%;
     --success-foreground: 0 0% 100%;
 
-    --border: 215 20% 90%;
-    --input: 215 20% 90%;
-    --ring: 217 91% 50%;
+    --border:            0 0% 88%;         /* cinza claro — bordas */
+    --input:             0 0% 88%;
+    --ring:              4 86% 54%;        /* foco = vermelho */
 
     --radius: 0.75rem;
 
-    /* Gradientes claros */
-    --gradient-hero: radial-gradient(ellipse at top, hsl(217 91% 92% / 0.7), transparent 60%),
-                     linear-gradient(180deg, hsl(0 0% 100%), hsl(215 25% 98%));
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 50%), hsl(225 85% 55%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(215 25% 98%));
-    --gradient-accent: linear-gradient(135deg, hsl(38 96% 55%), hsl(28 100% 55%));
-    --gradient-text: linear-gradient(135deg, hsl(222 47% 11%), hsl(217 91% 35%));
+    /* Gradientes */
+    --gradient-hero:    radial-gradient(ellipse at top, hsl(4 86% 54% / 0.12), transparent 65%),
+                        linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 97%));
+    --gradient-primary: linear-gradient(135deg, hsl(4 86% 54%), hsl(0 78% 42%));
+    --gradient-card:    linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 97%));
+    --gradient-accent:  linear-gradient(135deg, hsl(0 0% 16%), hsl(0 0% 10%));
+    --gradient-text:    linear-gradient(135deg, hsl(0 0% 8%), hsl(4 86% 44%));
 
-    /* Sombras suaves */
-    --shadow-glow: 0 10px 40px -10px hsl(217 91% 50% / 0.35);
-    --shadow-card: 0 4px 20px -4px hsl(217 30% 30% / 0.08);
+    /* Sombras */
+    --shadow-glow:     0 10px 40px -10px hsl(4 86% 54% / 0.40);
+    --shadow-card:     0 4px 20px -4px hsl(0 0% 0% / 0.07);
+    --shadow-elevated: 0 20px 50px -10px hsl(0 0% 0% / 0.14);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --sidebar-background:        0 0% 100%;
+    --sidebar-foreground:        0 0% 8%;
+    --sidebar-primary:           4 86% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent:            0 0% 95%;
+    --sidebar-accent-foreground: 0 0% 8%;
+    --sidebar-border:            0 0% 88%;
+    --sidebar-ring:              4 86% 54%;
+  }
+}
+
+/* ─── TEMA: AZUL PERFORMANCE (alternativo) ───────────────────── */
+@layer base {
+  [data-theme="azul"] {
+    --background:        0 0% 100%;
+    --foreground:        222 47% 11%;
+
+    --card:              0 0% 100%;
+    --card-foreground:   222 47% 11%;
+
+    --popover:           0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary:           217 91% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow:      217 91% 60%;
+
+    --secondary:         38 96% 50%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted:             215 25% 96%;
+    --muted-foreground:  215 16% 45%;
+
+    --accent:            215 25% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive:       0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success:           142 70% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --border:            215 20% 90%;
+    --input:             215 20% 90%;
+    --ring:              217 91% 50%;
+
+    --radius: 0.75rem;
+
+    --gradient-hero:    radial-gradient(ellipse at top, hsl(217 91% 92% / 0.7), transparent 60%),
+                        linear-gradient(180deg, hsl(0 0% 100%), hsl(215 25% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 50%), hsl(225 85% 55%));
+    --gradient-card:    linear-gradient(180deg, hsl(0 0% 100%), hsl(215 25% 98%));
+    --gradient-accent:  linear-gradient(135deg, hsl(38 96% 55%), hsl(28 100% 55%));
+    --gradient-text:    linear-gradient(135deg, hsl(222 47% 11%), hsl(217 91% 35%));
+
+    --shadow-glow:     0 10px 40px -10px hsl(217 91% 50% / 0.35);
+    --shadow-card:     0 4px 20px -4px hsl(217 30% 30% / 0.08);
     --shadow-elevated: 0 20px 50px -10px hsl(217 50% 25% / 0.18);
 
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 217 91% 50%;
+    --sidebar-background:        0 0% 100%;
+    --sidebar-foreground:        222 47% 11%;
+    --sidebar-primary:           217 91% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 96%;
+    --sidebar-accent:            215 25% 96%;
     --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 215 20% 90%;
-    --sidebar-ring: 217 91% 50%;
+    --sidebar-border:            215 20% 90%;
+    --sidebar-ring:              217 91% 50%;
   }
 }
+
 
 @layer base {
   * {
