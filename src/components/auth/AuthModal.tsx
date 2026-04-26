@@ -171,7 +171,15 @@ export function AuthModal() {
                   <FormItem>
                     <FormLabel>Nome Completo</FormLabel>
                     <FormControl>
-                      <Input placeholder="João da Silva" autoComplete="name" {...field} />
+                      <Input 
+                        placeholder="João da Silva" 
+                        autoComplete="off" 
+                        name={field.name}
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -187,10 +195,13 @@ export function AuthModal() {
                       <Input 
                         placeholder="(11) 99999-9999" 
                         type="tel"
-                        autoComplete="tel"
-                        {...field} 
-                        onChange={(e) => field.onChange(formatPhone(e.target.value))}
+                        autoComplete="off"
                         maxLength={15}
+                        name={field.name}
+                        value={field.value}
+                        onChange={(e) => field.onChange(formatPhone(e.target.value))}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
                       />
                     </FormControl>
                     <FormMessage />
