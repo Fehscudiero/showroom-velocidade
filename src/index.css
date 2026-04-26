@@ -114,8 +114,95 @@
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   }
 
+  .bg-grid-primary {
+    background-image:
+      linear-gradient(hsl(var(--primary) / 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    position: relative;
+  }
+
+  .bg-grid-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(var(--background)) 70%);
+    pointer-events: none;
+  }
+
+  .bg-grid-faded {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.15) 1px, transparent 1px);
+    background-size: 64px 64px;
+    position: relative;
+  }
+
+  .bg-grid-faded::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 20%, hsl(var(--background)) 80%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .bg-grid-dots {
+    background-image: radial-gradient(hsl(var(--primary) / 0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+    position: relative;
+  }
+
+  .bg-grid-dots::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, hsl(var(--background)) 90%);
+    pointer-events: none;
+  }
+
+  .bg-grid-large {
+    background-image:
+      linear-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+    position: relative;
+  }
+
+  .bg-grid-large::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(var(--background)) 80%);
+    pointer-events: none;
+  }
+
   .glow-primary {
     box-shadow: var(--shadow-glow);
+  }
+
+  .section-grid {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, hsl(var(--primary) / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .section-grid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, hsl(var(--background)) 100%);
+    pointer-events: none;
   }
 }
 
@@ -199,6 +286,22 @@
 .word-anim, .char-anim, .line-anim-wrapper > span {
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
+  white-space: nowrap;
+}
+
+[data-char] {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+[data-word] {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+[data-word] > span {
+  display: inline-block !important;
+  white-space: nowrap !important;
 }
 
 html {

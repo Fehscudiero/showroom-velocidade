@@ -9,15 +9,15 @@ const isTablet = () => typeof window !== "undefined" && window.innerWidth < 1024
 
 const splitChars = (text: string): string => {
   return text.split("").map((char, i) => {
-    if (char === " ") return `<span class="inline-block w-[0.25em]" data-char="${i}"> </span>`;
-    return `<span class="inline-block" data-char="${i}">${char}</span>`;
+    if (char === " ") return `<span class="inline-block w-[0.3em]" style="white-space:pre" data-char="${i}"> </span>`;
+    return `<span class="inline-block" style="white-space:pre" data-char="${i}">${char}</span>`;
   }).join("");
 };
 
 const splitWords = (text: string): string => {
   return text.split(" ").map((word, i) => {
     if (!word.trim()) return "";
-    return `<span class="inline-block overflow-hidden align-baseline mr-[0.28em]" data-word="${i}"><span class="inline-block">${word}</span></span>`;
+    return `<span class="inline-block" style="white-space:nowrap" data-word="${i}"><span class="inline-block" style="white-space:nowrap">${word}</span></span>`;
   }).join(" ");
 };
 

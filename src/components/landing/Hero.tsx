@@ -4,7 +4,7 @@ import heroImage from "@/assets/hero-showroom.jpg";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useCharReveal, useStaggerReveal, useParallax } from "@/hooks/useScrollReveal";
+import { useCharReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,77 +66,77 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden bg-gradient-hero">
-      <div className="absolute inset-0 bg-grid pointer-events-none opacity-60" aria-hidden />
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[200px] pointer-events-none animate-pulse" aria-hidden />
+    <section ref={sectionRef} className="relative pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-40 lg:pb-28 overflow-hidden bg-gradient-hero section-grid">
+      <div className="absolute inset-0 bg-grid-faded pointer-events-none" aria-hidden />
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[800px] md:w-[900px] md:h-[900px] bg-primary/20 rounded-full blur-[180px] md:blur-[200px] pointer-events-none animate-pulse" aria-hidden />
 
-      <div className="container relative z-10">
-        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-14 lg:gap-20 items-center">
-          <div>
+      <div className="container relative z-10 max-w-7xl">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12 xl:gap-16 items-center">
+          <div className="text-center lg:text-left">
             <div 
               data-badge
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-xs font-semibold text-primary mb-8 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-xs md:text-sm font-semibold text-primary mb-5 md:mb-6 backdrop-blur-sm"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              WaaS para lojas de veículos · Mobile-First
+              <span className="whitespace-nowrap">WaaS para lojas de veículos</span>
             </div>
 
             <h1 
               ref={titleRef}
-              className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-[0.98] tracking-tight"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black leading-[1.1] tracking-tight"
             >
               Pare de perder vendas para um <span className="text-gradient-primary">site lento.</span>
             </h1>
 
             <p 
               ref={subtitleReveal}
-              className="mt-8 text-xl md:text-2xl text-muted-foreground max-w-xl leading-relaxed"
+              className="mt-5 md:mt-6 text-base md:text-lg lg:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed"
             >
               Construímos catálogos digitais de alta conversão para sua loja. Performance extrema: 
               <strong className="text-foreground font-bold"> 100/100 no Lighthouse</strong>, fotos que abrem 
-              instantaneamente até no 3G e clientes que chegam no WhatsApp <em className="italic">já sabendo o que querem</em>.
+              instantaneamente até no 3G e clientes chegam no WhatsApp <em>já sabendo o que querem</em>.
             </p>
 
-            <div ref={ctaReveal} className="mt-12 flex flex-wrap gap-5">
-              <Button variant="hero" size="xl" asChild className="group/btn shadow-glow">
-                <a href="#planos">
+            <div ref={ctaReveal} className="mt-6 md:mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
+              <Button variant="hero" size="lg" asChild className="group/btn shadow-glow w-full sm:w-auto justify-center">
+                <a href="#planos" className="inline-flex items-center justify-center whitespace-nowrap">
                   Agendar demonstração 
-                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-2" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-transform group-hover/btn:translate-x-2" />
                 </a>
               </Button>
-              <Button variant="outlineGlow" size="xl" asChild>
-                <a href="#solucao">Como funciona</a>
+              <Button variant="outlineGlow" size="lg" asChild className="w-full sm:w-auto justify-center">
+                <a href="#solucao" className="inline-flex items-center justify-center">Como funciona</a>
               </Button>
             </div>
 
-            <div ref={statsReveal} className="mt-16 grid grid-cols-3 gap-10 max-w-lg">
+            <div ref={statsReveal} className="mt-8 md:mt-10 lg:mt-12 grid grid-cols-3 gap-4 md:gap-6 max-w-md mx-auto lg:mx-0">
               {[
                 { icon: Gauge, label: "Lighthouse", value: "100/100" },
                 { icon: Zap, label: "Carregamento", value: "< 1s" },
                 { icon: Smartphone, label: "Mobile-First", value: "Nativo" },
               ].map((s) => (
-                <div key={s.label} className="group/icon">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary grid place-items-center mb-4 group-hover/icon:bg-primary group-hover/icon:text-primary-foreground group-hover/icon:scale-110 transition-all duration-300">
-                    <s.icon className="w-7 h-7" />
+                <div key={s.label} className="group/icon text-center">
+                  <div className="w-10 h-10 md:w-12 md:h-12 mx-auto rounded-xl bg-primary/10 text-primary grid place-items-center mb-2 md:mb-3 group-hover/icon:bg-primary group-hover/icon:text-primary-foreground group-hover/icon:scale-110 transition-all duration-300">
+                    <s.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
-                  <div className="font-display text-2xl md:text-3xl font-black">{s.value}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
+                  <div className="font-display text-lg md:text-xl lg:text-2xl font-black">{s.value}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-0.5">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div ref={imageRef} className="relative lg:pl-8">
-            <div className="absolute -inset-12 bg-gradient-primary opacity-30 blur-[80px] rounded-full" aria-hidden />
+          <div ref={imageRef} className="relative px-4 lg:px-0 hidden md:block">
+            <div className="absolute -inset-6 md:-inset-8 lg:-inset-12 bg-gradient-primary opacity-30 blur-[50px] md:blur-[60px] lg:blur-[80px] rounded-full" aria-hidden />
             <img
               src={heroImage}
               alt="Showroom digital de veículos"
               width={1536}
               height={1152}
-              className="relative rounded-3xl shadow-2xl border border-border/50"
+              className="relative rounded-xl md:rounded-2xl lg:rounded-3xl shadow-2xl border border-border/50 w-full"
             />
           </div>
         </div>

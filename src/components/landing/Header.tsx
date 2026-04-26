@@ -13,15 +13,15 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/85 border-b border-border shadow-sm">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container max-w-7xl flex h-14 md:h-16 items-center justify-between">
         <a href="#" className="flex items-center gap-2 font-display font-bold text-lg">
-          <span className="grid place-items-center w-9 h-9 rounded-lg bg-gradient-primary text-primary-foreground shadow-glow">
-            <Car className="w-5 h-5" />
+          <span className="grid place-items-center w-8 h-8 md:w-9 md:h-9 rounded-lg bg-gradient-primary text-primary-foreground shadow-glow">
+            <Car className="w-4 h-4 md:w-5 md:h-5" />
           </span>
-          <span>Showroom<span className="text-primary">.</span></span>
+          <span className="text-base md:text-lg">Showroom<span className="text-primary">.</span></span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+        <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-sm text-muted-foreground">
           {links.map((l) => (
             <a key={l.href} href={l.href} className="hover:text-foreground transition-colors">
               {l.label}
@@ -29,7 +29,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <Button variant="ghost" size="sm" asChild>
             <a href="#login">Login do Lojista</a>
           </Button>
@@ -39,17 +39,17 @@ const Header = () => {
         </div>
 
         <button
-          className="md:hidden text-foreground"
+          className="lg:hidden text-foreground p-2"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {open ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-border/60 bg-background/95">
-          <div className="container py-4 flex flex-col gap-3">
+        <div className="lg:hidden border-t border-border/60 bg-background/95">
+          <div className="container max-w-7xl py-4 flex flex-col gap-3">
             {links.map((l) => (
               <a
                 key={l.href}
