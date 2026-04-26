@@ -29,7 +29,7 @@ const Header = () => {
             // h-14: 56px no Mobile (tamanho bem visível no header h-16)
             // md:h-20: 80px no Tablet/Desktop médio
             // lg:h-20: 80px no Desktop grande
-            className="h-14 md:h-20 lg:h-20 w-auto object-contain transition-all duration-300"
+            className="pt-14  h-18 md:h-64 lg:h-26w-auto object-contain transition-all duration-300"
           />
         </a>
 
