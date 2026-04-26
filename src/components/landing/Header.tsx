@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, Car } from "lucide-react";
+import { Menu, X, Car, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
+  const { setAuthModalOpen, setAuthView, user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const links = [
     { href: "#solucao", label: "Como funciona" },
@@ -30,9 +32,20 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Button variant="ghost" size="sm" asChild>
-            <a href="#login">Login do Lojista</a>
-          </Button>
+          {user ? (
+            <div className="flex items-center gap-3 mr-2">
+              <span className="text-sm font-medium text-foreground">
+                Olá, {user.user_metadata?.full_name?.split(' ')[0] || 'Lojista'}
+              </span>
+              <Button variant="ghost" size="icon" onClick={() => signOut()} title="Sair">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button variant="ghost" size="sm" onClick={() => { setAuthView('login'); setAuthModalOpen(true); }}>
+              Login do Lojista
+            </Button>
+          )}
           <Button variant="hero" size="sm" asChild>
             <a href="#planos">Agendar demo</a>
           </Button>
@@ -61,9 +74,20 @@ const Header = () => {
               </a>
             ))}
             <div className="flex flex-col gap-2 pt-2">
-              <Button variant="outlineGlow" asChild>
-                <a href="#login">Login do Lojista</a>
-              </Button>
+              {user ? (
+                <>
+                  <div className="py-2 text-sm font-medium text-foreground text-center">
+                    Olá, {user.user_metadata?.full_name?.split(' ')[0] || 'Lojista'}
+                  </div>
+                  <Button variant="outline" onClick={() => { signOut(); setOpen(false); }}>
+                    Sair da Conta
+                  </Button>
+                </>
+              ) : (
+                <Button variant="outlineGlow" onClick={() => { setAuthView('login'); setAuthModalOpen(true); setOpen(false); }}>
+                  Login do Lojista
+                </Button>
+              )}
               <Button variant="hero" asChild>
                 <a href="#planos">Agendar demo</a>
               </Button>
