@@ -26,10 +26,10 @@ const Header = () => {
           <img
             src={logoImg}
             alt="Logo da Empresa"
-            // h-10: 40px no Mobile
-            // md:h-14: 56px no Tablet/Desktop médio
-            // lg:h-16: 64px no Desktop grande
-            className="h-10 md:h-14 lg:h-16 w-auto object-contain transition-all duration-300"
+            // h-14: 56px no Mobile (tamanho bem visível no header h-16)
+            // md:h-20: 80px no Tablet/Desktop médio
+            // lg:h-20: 80px no Desktop grande
+            className="h-14 md:h-20 lg:h-20 w-auto object-contain transition-all duration-300"
           />
         </a>
 
