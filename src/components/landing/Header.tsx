@@ -3,7 +3,7 @@ import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 // Importação da logo
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 
 const Header = () => {
   const { setAuthModalOpen, setAuthView, user, signOut } = useAuth();
