@@ -1,7 +1,7 @@
 import { Brain, RefreshCw, GitCompare, Calculator, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useCharReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 
 const modules = [
   { icon: Brain, name: "IA Descritiva", desc: "Gera descrições persuasivas de cada veículo automaticamente." },
@@ -11,42 +11,61 @@ const modules = [
 ];
 
 const Expansion = () => {
-  const ref = useScrollReveal<HTMLElement>({ stagger: 0.1 });
+  const sectionReveal = useStaggerReveal<HTMLElement>({ stagger: 0.1, blurFrom: 20, yFrom: 60 });
+  const titleRef = useCharReveal<HTMLHeadingElement>({
+    duration: 1.4,
+    stagger: 0.02,
+    ease: "power4.out",
+    blurFrom: 50,
+    yFrom: 100,
+    rotationX: -90,
+  });
+  const subtitleReveal = useStaggerReveal<HTMLParagraphElement>({ stagger: 0.015, blurFrom: 20, yFrom: 50 });
+  
   return (
-    <section ref={ref} id="expansao" className="py-24">
-      <div className="container">
-        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
+    <section ref={sectionReveal} id="expansao" className="py-32 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" aria-hidden />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" aria-hidden />
+      
+      <div className="container relative">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-20 items-center">
           <div>
-            <div data-reveal className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-xs font-medium text-primary mb-5">
-              <Sparkles className="w-3.5 h-3.5" /> Módulos à la carte
+            <div data-reveal className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-xs font-semibold text-primary mb-8">
+              <Sparkles className="w-4 h-4" />
+              Módulos à la carte
             </div>
-            <h2 data-reveal className="font-display text-3xl md:text-5xl font-bold tracking-tight">
+            
+            <h2 ref={titleRef} className="font-display text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight">
               Seu showroom <span className="text-gradient-primary">cresce com você.</span>
             </h2>
-            <p data-reveal className="mt-5 text-muted-foreground text-lg leading-relaxed">
+            
+            <p ref={subtitleReveal} className="mt-8 text-xl md:text-2xl text-muted-foreground leading-relaxed">
               Não pague pelo que não usa. Comece com o essencial e ative módulos avançados quando a loja pedir.
             </p>
-            <div data-reveal>
-              <Button variant="hero" size="lg" className="mt-8" asChild>
+            
+            <div className="mt-12" data-reveal>
+              <Button variant="hero" size="lg" asChild className="group/btn">
                 <Link to="/adicionais">
-                  Ver todos os adicionais <ArrowRight className="w-4 h-4" />
+                  Ver todos os adicionais
+                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-2" />
                 </Link>
               </Button>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            {modules.map((m) => (
+          <div className="grid sm:grid-cols-2 gap-8">
+            {modules.map((m, i) => (
               <div
                 data-reveal
                 key={m.name}
-                className="p-6 rounded-2xl bg-card border border-border shadow-card hover:border-primary/40 hover:shadow-elevated hover:-translate-y-1 transition-all"
+                className="group p-10 rounded-3xl bg-card border border-border shadow-card hover:shadow-elevated hover:border-primary/40 hover:-translate-y-3 transition-all duration-500"
+                style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center mb-4">
-                  <m.icon className="w-5 h-5" />
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary grid place-items-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300">
+                  <m.icon className="w-8 h-8" />
                 </div>
-                <h3 className="font-display font-semibold mb-1.5">{m.name}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{m.desc}</p>
+                <h3 className="font-display text-xl font-bold mb-2 group-hover:text-primary transition-colors">{m.name}</h3>
+                <p className="text-muted-foreground leading-relaxed">{m.desc}</p>
               </div>
             ))}
           </div>

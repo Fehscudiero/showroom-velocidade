@@ -1,5 +1,5 @@
 import { Gauge, MessageCircle, FileText, BadgeCheck, Filter, ImageIcon } from "lucide-react";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useCharReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 
 const features = [
   {
@@ -41,37 +41,53 @@ const features = [
 ];
 
 const Features = () => {
-  const ref = useScrollReveal<HTMLElement>({ stagger: 0.1 });
+  const sectionReveal = useStaggerReveal<HTMLElement>({ stagger: 0.07, blurFrom: 15, yFrom: 50 });
+  const titleRef = useCharReveal<HTMLHeadingElement>({
+    duration: 1.4,
+    stagger: 0.018,
+    ease: "power4.out",
+    blurFrom: 50,
+    yFrom: 100,
+    rotationX: -90,
+  });
+  
   return (
-    <section ref={ref} id="features" className="py-24 relative overflow-hidden">
-      <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/10 rounded-full blur-[120px] pointer-events-none" aria-hidden />
+    <section ref={sectionReveal} id="features" className="py-32 relative overflow-hidden">
+      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[700px] h-[700px] bg-primary/10 rounded-full blur-[180px]" aria-hidden />
+      <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[180px]" aria-hidden />
 
       <div className="container relative">
-        <div className="max-w-2xl mb-16">
-          <span data-reveal className="text-sm font-semibold text-primary uppercase tracking-wider">Tecnologia + ferramentas</span>
-          <h2 data-reveal className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight">
+        <div className="max-w-3xl mb-24">
+          <span className="inline-block text-sm font-semibold text-primary uppercase tracking-[0.2em] mb-6" data-reveal>
+            Tecnologia + ferramentas
+          </span>
+          
+          <h2 ref={titleRef} className="font-display text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight">
             Velocidade absurda. <br />
             <span className="text-gradient-primary">Vendas no automático.</span>
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map((f) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((f, i) => (
             <div
               data-reveal
               key={f.title}
-              className="group relative p-7 rounded-2xl border border-border bg-card shadow-card hover:shadow-elevated hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              className="group relative p-10 rounded-3xl border border-border bg-card shadow-card hover:shadow-elevated hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 overflow-hidden"
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/15 transition-all" aria-hidden />
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/25 transition-all duration-700" aria-hidden />
+              
               <div className="relative">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary grid place-items-center">
-                    <f.icon className="w-5 h-5" />
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary grid place-items-center group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300">
+                    <f.icon className="w-8 h-8" />
                   </div>
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{f.tag}</span>
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{f.tag}</span>
                 </div>
-                <h3 className="font-display font-bold text-lg mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.text}</p>
+                
+                <h3 className="font-display text-xl font-bold mb-3 group-hover:text-primary transition-colors">{f.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{f.text}</p>
               </div>
             </div>
           ))}
