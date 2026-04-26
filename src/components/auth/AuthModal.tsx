@@ -128,7 +128,7 @@ export function AuthModal() {
         </DialogHeader>
 
         {isLogin ? (
-          <Form {...loginForm}>
+          <Form {...loginForm} key="login-form">
             <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
               <FormField
                 control={loginForm.control}
@@ -162,7 +162,7 @@ export function AuthModal() {
             </form>
           </Form>
         ) : (
-          <Form {...registerForm}>
+          <Form {...registerForm} key="register-form">
             <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
               <FormField
                 control={registerForm.control}
@@ -171,15 +171,7 @@ export function AuthModal() {
                   <FormItem>
                     <FormLabel>Nome Completo</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="João da Silva" 
-                        autoComplete="off" 
-                        name={field.name}
-                        value={field.value}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        ref={field.ref}
-                      />
+                      <Input placeholder="João da Silva" autoComplete="name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,13 +187,10 @@ export function AuthModal() {
                       <Input 
                         placeholder="(11) 99999-9999" 
                         type="tel"
-                        autoComplete="off"
-                        maxLength={15}
-                        name={field.name}
-                        value={field.value}
+                        autoComplete="tel"
+                        {...field}
                         onChange={(e) => field.onChange(formatPhone(e.target.value))}
-                        onBlur={field.onBlur}
-                        ref={field.ref}
+                        maxLength={15}
                       />
                     </FormControl>
                     <FormMessage />
