@@ -25,7 +25,7 @@ const Hero = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 
-      // Animação de entrada
+      // Animação de entrada (Inverti a direção do x do card para vir da esquerda)
       tl.from(contentRef.current, {
         y: 40,
         opacity: 0,
@@ -34,7 +34,7 @@ const Hero = () => {
       }).from(
         glassCardRef.current,
         {
-          y: 40,
+          x: -50, // Agora vem da esquerda para a direita
           opacity: 0,
           duration: 1,
           ease: "back.out(1.2)",
@@ -79,14 +79,12 @@ const Hero = () => {
             type="video/mp4"
           />
         </video>
-        {/* Overlay sutil para garantir legibilidade, caso o vídeo tenha partes claras */}
         <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       </div>
 
       {/* ── Header / Navigation ── */}
       <nav className="relative z-20 flex items-center justify-between px-6 md:px-12 lg:px-16 py-6 bg-transparent">
         <div className="flex items-center gap-2">
-          {/* Logo Simulado SVG */}
           <svg
             width="32"
             height="32"
@@ -122,15 +120,16 @@ const Hero = () => {
       </nav>
 
       {/* ── Main Content Area ── */}
-      {/* Mobile: Coluna / Desktop (lg): Linha com espaço entre eles */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto flex-1 flex flex-col lg:flex-row items-start justify-between px-6 md:px-12 lg:px-16 pt-8 lg:pt-16 pb-16 gap-12 lg:gap-8">
-        {/* LEFT: Headline & Copy */}
+      {/* lg:flex-row-reverse inverte a posição: Texto para Direita, Card para Esquerda */}
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto flex-1 flex flex-col lg:flex-row-reverse items-start justify-between px-6 md:px-12 lg:px-16 pt-8 lg:pt-16 pb-16 gap-12 lg:gap-8">
+        
+        {/* RIGHT (Inverted): Headline & Copy */}
         <div
           ref={contentRef}
-          className="w-full lg:max-w-[55%] xl:max-w-3xl mt-4"
+          className="w-full lg:max-w-[55%] xl:max-w-4xl mt-4 lg:text-right flex flex-col lg:items-end"
         >
           {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-5 md:mb-6">
+          <div className="flex items-center gap-3 mb-5 md:mb-6 lg:flex-row-reverse">
             <span className="w-6 md:w-8 h-0.5 bg-primary" />
             <span className="text-primary text-[10px] md:text-xs lg:text-sm font-bold tracking-widest uppercase">
               WaaS para lojas de veículos · Catálogos de alta conversão
@@ -160,7 +159,7 @@ const Hero = () => {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:flex-row-reverse">
             <button
               className="group relative bg-primary text-primary-foreground px-6 md:px-8 py-4 font-bold uppercase text-xs md:text-sm flex items-center justify-center gap-3 transition-all hover:brightness-110 w-full sm:w-auto"
               style={{ clipPath: CLIP_PATH_BUTTON }}
@@ -178,7 +177,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* RIGHT: Stats & Trust Strip (Top Right on Desktop) */}
+        {/* LEFT (Inverted): Stats & Trust Strip */}
         <div
           ref={glassCardRef}
           className="w-full lg:w-[420px] xl:w-[480px] p-5 md:p-6 lg:p-8 relative overflow-hidden"
@@ -192,7 +191,6 @@ const Hero = () => {
             boxShadow: "inset 0 0 20px rgba(255,255,255,0.05)",
           }}
         >
-          {/* Surface Shine Effect */}
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 to-transparent opacity-20" />
 
           {/* Stats Grid */}

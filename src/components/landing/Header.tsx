@@ -2,8 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-// Importação da logo
-import logoImg from "@/assets/logo.webp";
 
 const Header = () => {
   const { setAuthModalOpen, setAuthView, user, signOut } = useAuth();
@@ -18,17 +16,24 @@ const Header = () => {
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/80 border-b border-border shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex h-16 md:h-24 items-center justify-between">
-        {/* ── LOGO COM TAMANHOS RESPONSIVOS ── */}
+        {/* ── LOGO COM OTIMIZAÇÃO DE LCP ── */}
         <a
           href="#"
           className="flex items-center transition-transform hover:scale-105 active:scale-95"
         >
+          {/* 🚀 GABARITO DE PERFORMANCE:
+              1. src="/logo.webp" puxando da pasta public (sem hash do Vite)
+              2. fetchpriority="high" para o navegador baixar primeiro que tudo
+              3. width/height explícitos para zerar o CLS (Layout Shift)
+          */}
           <img
-            src={logoImg}
+            src="/logo.webp"
             alt="Logo da Empresa"
-            // h-14: 56px no Mobile (tamanho bem visível no header h-16)
-            // md:h-20: 80px no Tablet/Desktop médio
-            // lg:h-20: 80px no Desktop grande
+            width="340"
+            height="185"
+            fetchPriority="high"
+            loading="eager"
+            decoding="sync"
             className="pt-14 h-18 md:h-64 lg:h-26 w-auto object-contain transition-all duration-300"
           />
         </a>
