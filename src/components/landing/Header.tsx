@@ -31,7 +31,7 @@ const Header = () => {
             alt="Logo da Empresa"
             width="340"
             height="185"
-            fetchpriority="high"
+            fetchPriority="high"
             loading="eager"
             decoding="sync"
             className="pt-14 h-18 md:h-64 lg:h-26 w-auto object-contain transition-all duration-300"
