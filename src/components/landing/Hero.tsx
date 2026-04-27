@@ -1,51 +1,49 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Gauge, Zap, Smartphone } from "lucide-react";
+import { ArrowRight, Gauge, Zap, Smartphone, ChevronDown } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 // ---------------------------------------------------------------------------
-// Estilos Reutilizáveis (Clip-path para botões)
+// Constantes de Design System
 // ---------------------------------------------------------------------------
-const CLIP_PATH_BUTTON =
-  "polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)";
+const CLIP_PATH_GEOMETRIC =
+  "polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px)";
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
   const glassCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      // Animação de entrada (Inverti a direção do x do card para vir da esquerda)
-      tl.from(contentRef.current, {
+      // Intro Reveal - Sincronizado e suave
+      tl.from(".hero-reveal", {
         y: 40,
         opacity: 0,
+        stagger: 0.1,
         duration: 1.2,
-        delay: 0.3,
       }).from(
         glassCardRef.current,
         {
-          x: -50, // Agora vem da esquerda para a direita
+          scale: 0.98,
           opacity: 0,
-          duration: 1,
-          ease: "back.out(1.2)",
+          duration: 1.4,
         },
-        "-=0.9",
+        "-=1",
       );
 
-      // Parallax suave no vídeo ao scroll
+      // Parallax sutil no vídeo
       gsap.to(videoRef.current, {
-        yPercent: 15,
-        ease: "none",
+        yPercent: 10,
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
@@ -61,10 +59,10 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full flex flex-col bg-black overflow-hidden"
+      className="relative min-h-screen w-full flex flex-col bg-black overflow-hidden selection:bg-[#EE3F2C] selection:text-white"
       style={{ fontFamily: "'Rubik', sans-serif" }}
     >
-      {/* ── Background Video ── */}
+      {/* ── Background Engine (Video & Overlays) ── */}
       <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
@@ -72,157 +70,141 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="w-full h-[120%] object-cover opacity-100"
+          className="w-full h-[110%] object-cover opacity-60 grayscale-[15%]"
         >
           <source
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260227_042027_c4b2f2ea-1c7c-4d6e-9e3d-81a78063703f.mp4"
             type="video/mp4"
           />
         </video>
-        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+
+        {/* Overlays fixos para garantir contraste e foco visual */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-black/20 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/90 hidden lg:block" />
       </div>
 
-      {/* ── Header / Navigation ── */}
-      <nav className="relative z-20 flex items-center justify-between px-6 md:px-12 lg:px-16 py-6 bg-transparent">
-        <div className="flex items-center gap-2">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M16 0L32 16L16 32L0 16L16 0Z" fill="hsl(var(--primary))" />
-          </svg>
-          <span className="text-white text-2xl font-bold tracking-tighter uppercase">
-            WaaS
-          </span>
-        </div>
-
-        <div className="hidden lg:flex items-center gap-10">
-          {["Funcionalidades", "Cases", "Contato"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-white text-sm font-medium hover:text-primary transition-colors"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-
-        <button
-          className="bg-primary text-primary-foreground px-5 py-2.5 text-[11px] md:text-xs font-bold uppercase transition-transform active:scale-95"
-          style={{ clipPath: CLIP_PATH_BUTTON }}
-        >
-          Área do Cliente
-        </button>
-      </nav>
-
-      {/* ── Main Content Area ── */}
-      {/* lg:flex-row-reverse inverte a posição: Texto para Direita, Card para Esquerda */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto flex-1 flex flex-col lg:flex-row-reverse items-start justify-between px-6 md:px-12 lg:px-16 pt-8 lg:pt-16 pb-16 gap-12 lg:gap-8">
-        
-        {/* RIGHT (Inverted): Headline & Copy */}
+      {/* ── Main Layout Container ── */}
+      <div className="relative z-10 flex-1 w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col lg:flex-row-reverse items-center justify-between py-10 lg:py-20 gap-10">
+        {/* RIGHT BLOCK: Text Content & Actions */}
+        {/* Mobile: flex-1 e justify-between joga o texto pra cima e botões pra baixo */}
         <div
-          ref={contentRef}
-          className="w-full lg:max-w-[55%] xl:max-w-4xl mt-4 lg:text-right flex flex-col lg:items-end"
+          ref={contentWrapperRef}
+          className="w-full lg:max-w-[60%] flex-1 lg:flex-none flex flex-col justify-between lg:justify-center lg:items-end lg:text-right"
         >
-          {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-5 md:mb-6 lg:flex-row-reverse">
-            <span className="w-6 md:w-8 h-0.5 bg-primary" />
-            <span className="text-primary text-[10px] md:text-xs lg:text-sm font-bold tracking-widest uppercase">
-              WaaS para lojas de veículos · Catálogos de alta conversão
-            </span>
+          {/* TOP GROUP: Texto começando mais baixo no Mobile para UX Superior */}
+          <div className="pt-28 lg:pt-0">
+            {" "}
+            {/* Aumentado pt-10 para pt-28 no mobile */}
+            {/* Eyebrow Pill */}
+            <div className="hero-reveal mb-6 lg:mb-8 flex justify-center lg:justify-end">
+              <span className="inline-flex items-center px-4 py-1.5 border border-white/10 bg-white/5 backdrop-blur-md text-[#EE3F2C] text-[10px] lg:text-xs font-black tracking-[0.4em] uppercase rounded-full">
+                WAAS Automotive Framework
+              </span>
+            </div>
+            {/* H1 Principal com Tipografia Líquida */}
+            <h1 className="hero-reveal text-white font-bold leading-[1.05] lg:leading-[0.9] tracking-[-0.04em] uppercase mb-6 text-[clamp(40px,9vw,92px)] text-balance">
+              Pare de perder <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#EE3F2C]">
+                vendas
+              </span>{" "}
+              para <br className="hidden sm:block" />
+              um site lento.
+            </h1>
+            {/* Subtext Refinado */}
+            <p className="hero-reveal text-white/60 max-w-lg mx-auto lg:mr-0 text-base lg:text-xl leading-relaxed font-light lg:font-normal text-pretty">
+              Domine a performance com{" "}
+              <strong className="text-white font-semibold">
+                Score 100 no Lighthouse
+              </strong>
+              . Sua vitrine digital otimizada para converter em milissegundos.
+            </p>
           </div>
 
-          {/* H1 */}
-          <h1
-            className="text-white font-bold leading-[0.95] tracking-[-4%] uppercase mb-6"
-            style={{ fontSize: "clamp(40px, 6vw, 72px)" }}
-          >
-            Pare de perder vendas <br className="hidden sm:block" /> para um
-            site lento.
-          </h1>
-
-          {/* Sub-headline */}
-          <p className="text-white/80 w-full max-w-xl text-sm md:text-base leading-relaxed mb-8 md:mb-10">
-            <strong className="text-white font-semibold">
-              Performance extrema:
-            </strong>{" "}
-            100/100 no Lighthouse, fotos que abrem instantaneamente até no 3G e
-            clientes chegam no WhatsApp{" "}
-            <em className="not-italic text-primary font-semibold">
-              já sabendo o que querem
-            </em>
-            .
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:flex-row-reverse">
+          {/* BOTTOM GROUP: Botões posicionados na Thumb Zone (zona do polegar) no Mobile */}
+          <div className="hero-reveal flex flex-col sm:flex-row gap-4 w-full sm:w-auto lg:flex-row-reverse mt-12 lg:mt-16 pb-20 lg:pb-0">
             <button
-              className="group relative bg-primary text-primary-foreground px-6 md:px-8 py-4 font-bold uppercase text-xs md:text-sm flex items-center justify-center gap-3 transition-all hover:brightness-110 w-full sm:w-auto"
-              style={{ clipPath: CLIP_PATH_BUTTON }}
+              className="group relative bg-[#EE3F2C] text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 transition-all hover:scale-[1.03] active:scale-95 shadow-[0_20px_50px_rgba(238,63,44,0.3)]"
+              style={{ clipPath: CLIP_PATH_GEOMETRIC }}
             >
-              Agendar demonstração
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Agendar Demonstração
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
             </button>
 
             <button
-              className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 md:px-8 py-4 font-bold uppercase text-xs md:text-sm flex items-center justify-center transition-all hover:bg-white hover:text-black w-full sm:w-auto"
-              style={{ clipPath: CLIP_PATH_BUTTON }}
+              className="bg-white/5 backdrop-blur-xl border border-white/10 text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center transition-all hover:bg-white hover:text-black"
+              style={{ clipPath: CLIP_PATH_GEOMETRIC }}
             >
               Como funciona
             </button>
           </div>
         </div>
 
-        {/* LEFT (Inverted): Stats & Trust Strip */}
+        {/* LEFT BLOCK: Card de Métricas (Invisível no Mobile / Ultra Transparente no Desktop) */}
         <div
           ref={glassCardRef}
-          className="w-full lg:w-[420px] xl:w-[480px] p-5 md:p-6 lg:p-8 relative overflow-hidden"
-          style={{
-            backdropFilter: "blur(40px) saturate(180%)",
-            WebkitBackdropFilter: "blur(40px) saturate(180%)",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "4px",
-            boxShadow: "inset 0 0 20px rgba(255,255,255,0.05)",
-          }}
+          className="hidden lg:block w-full lg:w-[460px] p-[1px] bg-white/5 rounded-[4px]"
         >
-          <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 to-transparent opacity-20" />
-
-          {/* Stats Grid */}
-          <div className="relative z-10 grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-6">
-            {[
-              { icon: Gauge, label: "Lighthouse", value: "100/100" },
-              { icon: Zap, label: "Carregamento", value: "< 1s" },
-              { icon: Smartphone, label: "Mobile-First", value: "Nativo" },
-            ].map((s, i) => (
-              <div key={i} className="flex flex-col">
-                <div className="flex items-center gap-1.5 md:gap-2 mb-2">
-                  <s.icon className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0" />
-                  <span className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl leading-none">
-                    {s.value}
-                  </span>
+          <div
+            className="p-12 relative overflow-hidden rounded-[4px]"
+            style={{
+              backdropFilter: "blur(12px) saturate(120%)",
+              WebkitBackdropFilter: "blur(12px) saturate(120%)",
+              background: "rgba(255, 255, 255, 0.005)",
+              border: "1px solid rgba(255, 255, 255, 0.03)",
+            }}
+          >
+            <div className="grid grid-cols-1 gap-12">
+              {[
+                {
+                  icon: Gauge,
+                  label: "Lighthouse Performance",
+                  value: "100/100",
+                },
+                { icon: Zap, label: "Tempo de Resposta", value: "< 0.8s" },
+                {
+                  icon: Smartphone,
+                  label: "Interface Nativa",
+                  value: "Mobile",
+                },
+              ].map((s, i) => (
+                <div key={i} className="flex items-center gap-6 group">
+                  <div className="w-16 h-16 bg-white/5 border border-white/5 flex items-center justify-center rounded-xl transition-all duration-300">
+                    <s.icon className="w-8 h-8 text-[#EE3F2C]" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-white font-black text-4xl tracking-tighter leading-none">
+                      {s.value}
+                    </span>
+                    <p className="text-white/30 text-[11px] uppercase tracking-[0.2em] mt-2 font-bold">
+                      {s.label}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-white/60 text-[9px] sm:text-[10px] md:text-xs uppercase tracking-wider font-medium">
-                  {s.label}
-                </span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Trust Strip */}
-          <div className="relative z-10 pt-4 md:pt-5 border-t border-white/10 text-white/50 text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-wider font-semibold flex flex-wrap gap-x-2 gap-y-2 justify-between">
-            <span>Sem surpresas</span>
-            <span className="hidden sm:inline">·</span>
-            <span>Setup em 72h</span>
-            <span className="hidden sm:inline">·</span>
-            <span>Suporte dedicado</span>
+            <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">
+              <div className="flex items-center gap-3 text-white/70 text-[10px] font-bold uppercase tracking-[0.3em]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                Monitoramento Ativo
+              </div>
+              <p className="text-white/20 text-[9px] uppercase tracking-widest leading-relaxed font-bold">
+                Setup em 72h • Suporte Prioritário
+              </p>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* ── Visual Footer Hint ── */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-20">
+        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white">
+          Explore
+        </span>
+        <ChevronDown className="w-4 h-4 text-white animate-bounce" />
       </div>
     </section>
   );
