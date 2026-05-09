@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Gauge, Zap, Smartphone, ChevronDown } from "lucide-react";
+import { LeadCaptureModal } from "./LeadCaptureModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -122,13 +123,15 @@ const Hero = () => {
 
           {/* BOTTOM GROUP: Botões posicionados na Thumb Zone (zona do polegar) no Mobile */}
           <div className="hero-reveal flex flex-col sm:flex-row gap-4 w-full sm:w-auto lg:flex-row-reverse mt-12 lg:mt-16 pb-20 lg:pb-0">
-            <button
-              className="group relative bg-[#EE3F2C] text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 transition-all hover:scale-[1.03] active:scale-95 shadow-[0_20px_50px_rgba(238,63,44,0.3)]"
-              style={{ clipPath: CLIP_PATH_GEOMETRIC }}
-            >
-              Agendar Demonstração
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-            </button>
+            <LeadCaptureModal>
+              <button
+                className="group relative bg-[#EE3F2C] text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center gap-3 transition-all hover:scale-[1.03] active:scale-95 shadow-[0_20px_50px_rgba(238,63,44,0.3)]"
+                style={{ clipPath: CLIP_PATH_GEOMETRIC }}
+              >
+                Agendar Demonstração
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
+              </button>
+            </LeadCaptureModal>
 
             <button
               className="bg-white/5 backdrop-blur-xl border border-white/10 text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center transition-all hover:bg-white hover:text-black"

@@ -3,6 +3,7 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { useCharReveal, useStaggerReveal } from "@/hooks/useScrollReveal";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import { LeadCaptureModal } from "./LeadCaptureModal";
 
 const CTA = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -68,16 +69,18 @@ const CTA = () => {
             </p>
             
             <div className="mt-6 md:mt-8 flex flex-wrap gap-3 justify-center" data-reveal>
-              <Button 
-                variant="secondary" 
-                size="lg" 
-                className="bg-white text-primary hover:bg-white/90 shadow-xl group/btn w-full sm:w-auto justify-center"
-              >
-                <span className="inline-flex items-center justify-center whitespace-nowrap">
-                  Agendar demonstração
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-transform group-hover/btn:translate-x-1" />
-                </span>
-              </Button>
+              <LeadCaptureModal>
+                <Button 
+                  variant="secondary" 
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-white/90 shadow-xl group/btn w-full sm:w-auto justify-center"
+                >
+                  <span className="inline-flex items-center justify-center whitespace-nowrap">
+                    Agendar demonstração
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-transform group-hover/btn:translate-x-1" />
+                  </span>
+                </Button>
+              </LeadCaptureModal>
               <Button 
                 variant="outline" 
                 size="lg" 

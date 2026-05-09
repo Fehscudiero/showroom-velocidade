@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { LeadCaptureModal } from "./LeadCaptureModal";
 
 const Header = () => {
   const { setAuthModalOpen, setAuthView, user, signOut } = useAuth();
@@ -89,14 +90,15 @@ const Header = () => {
               Login do Lojista
             </Button>
           )}
-          <Button
-            variant="hero"
-            size="sm"
-            className="font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
-            asChild
-          >
-            <a href="#planos">Agendar demo</a>
-          </Button>
+          <LeadCaptureModal>
+            <Button
+              variant="hero"
+              size="sm"
+              className="font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
+            >
+              Agendar demo
+            </Button>
+          </LeadCaptureModal>
         </div>
 
         {/* ── BOTÃO MENU MOBILE ── */}
@@ -164,15 +166,15 @@ const Header = () => {
                   Login do Lojista
                 </Button>
               )}
-              <Button
-                variant="hero"
-                className="w-full justify-center h-12 text-base font-bold"
-                asChild
-              >
-                <a href="#planos" onClick={() => setOpen(false)}>
+              <LeadCaptureModal>
+                <Button
+                  variant="hero"
+                  className="w-full justify-center h-12 text-base font-bold"
+                  onClick={() => setOpen(false)}
+                >
                   Agendar demo
-                </a>
-              </Button>
+                </Button>
+              </LeadCaptureModal>
             </div>
           </div>
         </div>
