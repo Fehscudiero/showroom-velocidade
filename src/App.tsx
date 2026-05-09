@@ -12,6 +12,7 @@ import Index from "./pages/Index.tsx";
 // 🚀 2. CODE SPLITTING (Fatiamento de Código) NAS ROTAS SECUNDÁRIAS E MODAIS
 // Isso retira dezenas/centenas de KB do bundle inicial.
 const Adicionais = lazy(() => import("./pages/Adicionais.tsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const VerifyEmail = lazy(() => import("./pages/VerifyEmail.tsx"));
 
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               
               {/* Estas rotas só terão seu JS lido e avaliado sob demanda */}
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/adicionais" element={<Adicionais />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
               <Route path="*" element={<NotFound />} />

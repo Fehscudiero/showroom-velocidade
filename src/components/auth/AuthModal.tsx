@@ -67,7 +67,7 @@ export function AuthModal() {
 
   const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
@@ -81,6 +81,19 @@ export function AuthModal() {
     } else {
       toast({ title: "Login realizado com sucesso!" });
       setAuthModalOpen(false);
+
+      // REDIRECIONAMENTO ADMINISTRATIVO (SEGREGAÇÃO)
+      const userRole = data.user?.user_metadata?.role;
+      const userEmail = data.user?.email || "";
+
+      // Regra de Negócio: Se for admin/dev ou email admin, joga para a porta 5173
+      if (userRole === "admin" || userRole === "dev" || userEmail.includes("admin")) {
+        window.location.href = "http://localhost:5173";
+        return; // Interrompe a execução local
+      }
+
+      // Se for lojista padrão, vai para o painel de controle local
+      window.location.href = "/dashboard";
     }
     setIsLoading(false);
   };

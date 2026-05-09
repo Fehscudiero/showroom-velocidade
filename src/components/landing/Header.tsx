@@ -31,7 +31,7 @@ const Header = () => {
             alt="Logo da Empresa"
             width="340"
             height="185"
-            fetchPriority="high"
+            fetchpriority="high"
             loading="eager"
             decoding="sync"
             className="pt-14 h-18 md:h-64 lg:h-26 w-auto object-contain transition-all duration-300"
@@ -58,6 +58,14 @@ const Header = () => {
               <span className="text-sm font-medium text-white">
                 Olá, {user.user_metadata?.full_name?.split(" ")[0] || "Lojista"}
               </span>
+              <Button
+                variant="outlineGlow"
+                size="sm"
+                asChild
+                className="ml-2 font-bold shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all"
+              >
+                <a href="/dashboard">Acessar Painel</a>
+              </Button>
               <Button
                 variant="ghost"
                 size="icon"
@@ -125,6 +133,13 @@ const Header = () => {
                     Olá,{" "}
                     {user.user_metadata?.full_name?.split(" ")[0] || "Lojista"}
                   </div>
+                  <Button
+                    variant="hero"
+                    className="w-full justify-center shadow-[0_0_20px_rgba(var(--primary),0.4)]"
+                    asChild
+                  >
+                    <a href="/dashboard">Acessar Painel</a>
+                  </Button>
                   <Button
                     variant="outline"
                     className="w-full justify-center text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
