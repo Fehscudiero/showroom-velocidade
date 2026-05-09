@@ -127,10 +127,10 @@ export default function Dashboard() {
               <DropdownMenuContent align="end" className="w-64 bg-zinc-950 border-white/10 text-zinc-300">
                 <DropdownMenuLabel>Notificações</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
+                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer" onClick={() => setSelectedLead(leads[0])}>
                   Novo lead: Maria Silva
                 </DropdownMenuItem>
-                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
+                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer" onClick={() => setActiveTab("Relatórios")}>
                   Relatório semanal gerado
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -152,7 +152,7 @@ export default function Dashboard() {
               <DropdownMenuContent align="end" className="w-48 bg-zinc-950 border-white/10 text-zinc-300">
                 <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/10" />
-                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer">
+                <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer" onClick={() => window.alert("Aba de configurações da empresa.")}>
                   <Settings className="w-4 h-4 mr-2" /> Configurações
                 </DropdownMenuItem>
                 <DropdownMenuItem className="focus:bg-white/10 focus:text-white cursor-pointer" onClick={handleLogout}>

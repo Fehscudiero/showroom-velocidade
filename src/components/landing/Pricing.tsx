@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Star, ArrowRight } from "lucide-react";
 import { useCharReveal, useStaggerReveal, useMagneticHover } from "@/hooks/useScrollReveal";
 import { useRef } from "react";
+import { LeadCaptureModal } from "./LeadCaptureModal";
 
 const plans = [
   {
@@ -98,13 +99,15 @@ const PricingCard = ({ plan }: { plan: typeof plans[0] }) => {
         ))}
       </ul>
 
-      <Button 
-        variant={plan.highlight ? "hero" : "outlineGlow"} 
-        size="md" 
-        className="w-full"
-      >
-        {plan.cta}
-      </Button>
+      <LeadCaptureModal>
+        <Button 
+          variant={plan.highlight ? "hero" : "outlineGlow"} 
+          size="md" 
+          className="w-full"
+        >
+          {plan.cta}
+        </Button>
+      </LeadCaptureModal>
     </div>
   );
 };
