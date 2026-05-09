@@ -85,6 +85,7 @@ const CTA = () => {
                 variant="outline" 
                 size="lg" 
                 className="border-white/40 text-white bg-white/10 hover:bg-white/25 hover:text-white backdrop-blur-sm w-full sm:w-auto justify-center"
+                onClick={() => window.open("https://wa.me/5511999999999?text=Olá, quero agendar uma demo do AutoSpeed.", "_blank")}
               >
                 <span className="inline-flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 md:w-5 md:h-5 mr-2" />

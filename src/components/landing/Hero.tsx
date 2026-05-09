@@ -133,12 +133,13 @@ const Hero = () => {
               </button>
             </LeadCaptureModal>
 
-            <button
+            <a
+              href="#solucao"
               className="bg-white/5 backdrop-blur-xl border border-white/10 text-white px-10 py-5 font-black uppercase text-xs tracking-widest flex items-center justify-center transition-all hover:bg-white hover:text-black"
               style={{ clipPath: CLIP_PATH_GEOMETRIC }}
             >
               Como funciona
-            </button>
+            </a>
           </div>
         </div>
 

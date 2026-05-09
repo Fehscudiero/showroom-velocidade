@@ -36,6 +36,7 @@ export default function Dashboard() {
   
   // Transformando os leads em Estado Dinâmico para demonstrar a alteração
   const [leads, setLeads] = useState(MOCK_LEADS);
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
   
   // Modal States
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
@@ -107,10 +108,6 @@ export default function Dashboard() {
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white rounded-full">
-              <Search className="w-4 h-4" />
-            </Button>
-            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white rounded-full relative">
@@ -179,18 +176,19 @@ export default function Dashboard() {
               <div className="flex items-center gap-3">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="border-white/10 bg-transparent text-white hover:bg-white/5">
+                    <Button variant="outline" className={`border-white/10 bg-transparent hover:bg-white/5 ${filterStatus ? 'text-primary' : 'text-white'}`}>
                       <Filter className="w-4 h-4 mr-2" />
-                      Filtrar
+                      {filterStatus ? filterStatus : 'Filtrar'}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48 bg-zinc-950 border-white/10 text-white">
                     <DropdownMenuLabel>Filtrar por Status</DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Novo</DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Em Contato</DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Convertido</DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Perdido</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => setFilterStatus(null)}>Todos</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => setFilterStatus('Novo')}>Novo</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => setFilterStatus('Em Contato')}>Em Contato</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => setFilterStatus('Convertido')}>Convertido</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer" onClick={() => setFilterStatus('Perdido')}>Perdido</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 
@@ -304,7 +302,7 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent className="flex-1">
                   <div className="space-y-4 mt-2">
-                    {leads.slice(0, 5).map((lead) => (
+                    {leads.filter(l => filterStatus ? l.status === filterStatus : true).slice(0, 5).map((lead) => (
                       <div 
                         key={lead.id} 
                         onClick={() => setSelectedLead(lead)}
