@@ -150,10 +150,22 @@ export default function Dashboard() {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="outline" className="border-white/10 bg-transparent text-white hover:bg-white/5">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filtrar
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="border-white/10 bg-transparent text-white hover:bg-white/5">
+                      <Filter className="w-4 h-4 mr-2" />
+                      Filtrar
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 bg-zinc-950 border-white/10 text-white">
+                    <DropdownMenuLabel>Filtrar por Status</DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Novo</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Em Contato</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Convertido</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">Perdido</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 
                 {/* Export Dialog */}
                 <Dialog>
