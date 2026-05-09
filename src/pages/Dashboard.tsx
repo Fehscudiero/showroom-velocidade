@@ -41,7 +41,15 @@ export default function Dashboard() {
   
   // Modal States
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
+  const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState<typeof MOCK_LEADS[0] | null>(null);
+
+  // Campaign State
+  const [campaigns, setCampaigns] = useState([
+    { id: 1, name: "Black Friday Antecipada", description: "Geração de leads com foco em descontos premium.", conversion: "12%", cost: "R$ 450", status: "Ativa" }
+  ]);
+  const [newCampaignName, setNewCampaignName] = useState("");
+  const [newCampaignBudget, setNewCampaignBudget] = useState("");
 
   const handleLogout = () => {
     signOut();
@@ -457,7 +465,7 @@ export default function Dashboard() {
               <h3 className="text-xl font-medium text-white mb-2">Dados Demográficos</h3>
               <p className="text-zinc-400 max-w-md mx-auto">Em breve: Analise a idade, localização e perfil de compra dos visitantes do seu showroom.</p>
               
-              <Dialog>
+              <Dialog open={isTrackingModalOpen} onOpenChange={setIsTrackingModalOpen}>
                 <DialogTrigger asChild>
                   <Button className="mt-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20">Configurar Rastreamento</Button>
                 </DialogTrigger>
@@ -477,7 +485,12 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button className="bg-primary text-black hover:bg-primary/90 w-full">Salvar Configurações</Button>
+                    <Button 
+                      className="bg-primary text-black hover:bg-primary/90 w-full"
+                      onClick={() => setIsTrackingModalOpen(false)}
+                    >
+                      Salvar Configurações
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -501,30 +514,62 @@ export default function Dashboard() {
                   <div className="space-y-4 py-4">
                     <div className="space-y-2">
                       <Label>Nome da Campanha</Label>
-                      <Input placeholder="Ex: Oferta de Natal" className="bg-white/5 border-white/10 text-white" />
+                      <Input 
+                        placeholder="Ex: Oferta de Natal" 
+                        className="bg-white/5 border-white/10 text-white" 
+                        value={newCampaignName}
+                        onChange={(e) => setNewCampaignName(e.target.value)}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>Orçamento Previsto (R$)</Label>
-                      <Input type="number" placeholder="1000" className="bg-white/5 border-white/10 text-white" />
+                      <Input 
+                        type="number" 
+                        placeholder="1000" 
+                        className="bg-white/5 border-white/10 text-white" 
+                        value={newCampaignBudget}
+                        onChange={(e) => setNewCampaignBudget(e.target.value)}
+                      />
                     </div>
                   </div>
                   <DialogFooter>
                     <Button variant="outline" className="border-white/10 text-white hover:bg-white/10" onClick={() => setIsCampaignModalOpen(false)}>Cancelar</Button>
-                    <Button className="bg-primary text-black hover:bg-primary/90" onClick={() => setIsCampaignModalOpen(false)}>Lançar Campanha</Button>
+                    <Button 
+                      className="bg-primary text-black hover:bg-primary/90" 
+                      onClick={() => {
+                        if (newCampaignName) {
+                          setCampaigns([...campaigns, {
+                            id: Date.now(),
+                            name: newCampaignName,
+                            description: `Orçamento previsto: R$ ${newCampaignBudget || '0'}`,
+                            conversion: "0%",
+                            cost: "R$ 0",
+                            status: "Ativa"
+                          }]);
+                          setNewCampaignName("");
+                          setNewCampaignBudget("");
+                          setIsCampaignModalOpen(false);
+                        }
+                      }}
+                    >
+                      Lançar Campanha
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <Card className="bg-zinc-900/50 border-white/5 p-6 hover:border-primary/30 transition-colors cursor-pointer">
-                <Badge className="bg-emerald-500/10 text-emerald-400 mb-4 border-emerald-500/20">Ativa</Badge>
-                <h3 className="text-lg font-bold text-white">Black Friday Antecipada</h3>
-                <p className="text-sm text-zinc-400 mt-1">Geração de leads com foco em descontos premium.</p>
-                <div className="mt-4 pt-4 border-t border-white/5 flex justify-between text-sm">
-                  <span className="text-zinc-400">Conversão: <strong className="text-white">12%</strong></span>
-                  <span className="text-zinc-400">Custo: <strong className="text-white">R$ 450</strong></span>
-                </div>
-              </Card>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {campaigns.map(camp => (
+                <Card key={camp.id} className="bg-zinc-900/50 border-white/5 p-6 hover:border-primary/30 transition-colors cursor-pointer">
+                  <Badge className="bg-emerald-500/10 text-emerald-400 mb-4 border-emerald-500/20">{camp.status}</Badge>
+                  <h3 className="text-lg font-bold text-white">{camp.name}</h3>
+                  <p className="text-sm text-zinc-400 mt-1">{camp.description}</p>
+                  <div className="mt-4 pt-4 border-t border-white/5 flex justify-between text-sm">
+                    <span className="text-zinc-400">Conversão: <strong className="text-white">{camp.conversion}</strong></span>
+                    <span className="text-zinc-400">Custo: <strong className="text-white">{camp.cost}</strong></span>
+                  </div>
+                </Card>
+              ))}
               
               <Card 
                 onClick={() => setIsCampaignModalOpen(true)}

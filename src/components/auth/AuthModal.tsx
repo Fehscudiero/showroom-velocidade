@@ -172,6 +172,16 @@ export function AuthModal() {
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Entrando..." : "Entrar"}
               </Button>
+              <div className="flex justify-center mt-2">
+                <Button 
+                  type="button" 
+                  variant="link" 
+                  className="text-xs text-muted-foreground hover:text-primary p-0 h-auto"
+                  onClick={() => toast({ title: "Recuperação", description: "Verifique seu e-mail para redefinir a senha." })}
+                >
+                  Esqueci minha senha
+                </Button>
+              </div>
             </form>
           </Form>
         ) : (
