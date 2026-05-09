@@ -34,6 +34,9 @@ export default function Dashboard() {
   const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState("Visão Geral");
   
+  // Transformando os leads em Estado Dinâmico para demonstrar a alteração
+  const [leads, setLeads] = useState(MOCK_LEADS);
+  
   // Modal States
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState<typeof MOCK_LEADS[0] | null>(null);
@@ -41,6 +44,23 @@ export default function Dashboard() {
   const handleLogout = () => {
     signOut();
     window.location.href = "/";
+  };
+
+  // Função Estratégica: Avançar Negociação
+  const handleAdvanceNegotiation = () => {
+    if (!selectedLead) return;
+    
+    // Define o próximo status no funil de vendas
+    let nextStatus = "Em Contato";
+    if (selectedLead.status === "Novo") nextStatus = "Em Contato";
+    else if (selectedLead.status === "Em Contato") nextStatus = "Convertido";
+    else nextStatus = "Convertido";
+    
+    // Atualiza a tabela dinamicamente
+    setLeads(leads.map(lead => lead.id === selectedLead.id ? { ...lead, status: nextStatus } : lead));
+    
+    // Fecha o modal para dar a sensação de conclusão da tarefa
+    setSelectedLead(null);
   };
 
   const statusColors = {
@@ -284,7 +304,7 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent className="flex-1">
                   <div className="space-y-4 mt-2">
-                    {MOCK_LEADS.slice(0, 5).map((lead) => (
+                    {leads.slice(0, 5).map((lead) => (
                       <div 
                         key={lead.id} 
                         onClick={() => setSelectedLead(lead)}
@@ -408,8 +428,22 @@ export default function Dashboard() {
             </div>
             
             <DialogFooter className="bg-zinc-900/50 p-4 border-t border-white/5 sm:justify-between">
-              <Button variant="ghost" className="text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10">Marcar como Perdido</Button>
-              <Button className="bg-primary text-black hover:bg-primary/90 font-bold">Avançar Negociação</Button>
+              <Button 
+                variant="ghost" 
+                className="text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10"
+                onClick={() => {
+                  setLeads(leads.map(lead => lead.id === selectedLead?.id ? { ...lead, status: "Perdido" } : lead));
+                  setSelectedLead(null);
+                }}
+              >
+                Marcar como Perdido
+              </Button>
+              <Button 
+                className="bg-primary text-black hover:bg-primary/90 font-bold"
+                onClick={handleAdvanceNegotiation}
+              >
+                Avançar Negociação
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
