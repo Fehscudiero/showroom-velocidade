@@ -1,7 +1,9 @@
 import { Car, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 const Footer = () => {
+  const { setAuthModalOpen, setAuthView } = useAuth();
   return (
     <footer id="login" className="border-t border-border bg-muted/40">
       <div className="container py-16">
@@ -55,7 +57,14 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground mb-4">
               Acesse seu painel para gerenciar estoque e métricas.
             </p>
-            <Button variant="hero" className="w-full">
+            <Button 
+              variant="hero" 
+              className="w-full"
+              onClick={() => {
+                setAuthView("login");
+                setAuthModalOpen(true);
+              }}
+            >
               Acessar meu Showroom
             </Button>
           </div>
