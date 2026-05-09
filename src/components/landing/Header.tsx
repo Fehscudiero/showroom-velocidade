@@ -59,10 +59,10 @@ const Header = () => {
                 Olá, {user.user_metadata?.full_name?.split(" ")[0] || "Lojista"}
               </span>
               <Button
-                variant="outlineGlow"
+                variant="outline"
                 size="sm"
                 asChild
-                className="ml-2 font-bold shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all"
+                className="ml-2 font-bold text-white border-primary/50 bg-primary/10 hover:bg-primary/20 hover:text-white shadow-[0_0_15px_rgba(var(--primary),0.3)] transition-all"
               >
                 <a href="/dashboard">Acessar Painel</a>
               </Button>
