@@ -37,6 +37,7 @@ export default function Dashboard() {
   // Transformando os leads em Estado Dinâmico para demonstrar a alteração
   const [leads, setLeads] = useState(MOCK_LEADS);
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
+  const [showAllLeads, setShowAllLeads] = useState(false);
   
   // Modal States
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
@@ -208,10 +209,10 @@ export default function Dashboard() {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
-                      <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 justify-start">
+                      <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 justify-start" onClick={() => window.alert("O download do CSV começará em instantes.")}>
                         <FileText className="w-4 h-4 mr-2" /> Exportar como CSV
                       </Button>
-                      <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 justify-start">
+                      <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 justify-start" onClick={() => window.alert("Gerando PDF. Aguarde...")}>
                         <FileText className="w-4 h-4 mr-2" /> Exportar como PDF (Resumo)
                       </Button>
                     </div>
@@ -298,11 +299,13 @@ export default function Dashboard() {
                       Clique num lead para visualizar o perfil
                     </CardDescription>
                   </div>
-                  <Button variant="link" className="text-primary hover:text-primary/80 px-0">Ver todos</Button>
+                  <Button variant="link" className="text-primary hover:text-primary/80 px-0" onClick={() => setShowAllLeads(!showAllLeads)}>
+                    {showAllLeads ? "Ver menos" : "Ver todos"}
+                  </Button>
                 </CardHeader>
                 <CardContent className="flex-1">
                   <div className="space-y-4 mt-2">
-                    {leads.filter(l => filterStatus ? l.status === filterStatus : true).slice(0, 5).map((lead) => (
+                    {leads.filter(l => filterStatus ? l.status === filterStatus : true).slice(0, showAllLeads ? undefined : 5).map((lead) => (
                       <div 
                         key={lead.id} 
                         onClick={() => setSelectedLead(lead)}
