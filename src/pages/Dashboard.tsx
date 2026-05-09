@@ -7,17 +7,17 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Users, TrendingUp, CreditCard, Activity, LogOut, ArrowUpRight, BarChart3, Settings, Bell, Search, Filter, Plus, FileText, Download } from "lucide-react";
+import { Users, TrendingUp, CreditCard, Activity, LogOut, ArrowUpRight, BarChart3, Settings, Bell, Search, Filter, Plus, FileText, Download, MessageCircle, Car, Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const MOCK_LEADS = [
-  { id: 1, name: "Maria Silva", email: "maria@example.com", phone: "(11) 98765-4321", status: "Novo", amount: "R$ 4.500", date: "Hoje, 14:30", source: "Instagram Ads", notes: "Cliente interessada no plano anual." },
-  { id: 2, name: "João Pedro", email: "joao@example.com", phone: "(11) 91234-5678", status: "Em Contato", amount: "R$ 1.200", date: "Hoje, 10:15", source: "Google Busca", notes: "Pediu retorno amanhã pela manhã." },
-  { id: 3, name: "Carla Santos", email: "carla@example.com", phone: "(21) 99999-8888", status: "Convertido", amount: "R$ 8.900", date: "Ontem, 16:45", source: "Indicação", notes: "Contrato assinado." },
-  { id: 4, name: "Roberto Alves", email: "roberto@example.com", phone: "(31) 97777-6666", status: "Novo", amount: "R$ 3.400", date: "Ontem, 09:20", source: "Facebook Ads", notes: "Dúvida sobre formas de pagamento." },
-  { id: 5, name: "Fernanda Costa", email: "fernanda@example.com", phone: "(41) 96666-5555", status: "Perdido", amount: "R$ 5.600", date: "12 Mai, 11:00", source: "Google Busca", notes: "Achou caro no momento." },
-  { id: 6, name: "Lucas Mendes", email: "lucas@example.com", phone: "(51) 95555-4444", status: "Convertido", amount: "R$ 2.100", date: "11 Mai, 14:10", source: "Instagram Ads", notes: "Pagamento aprovado via PIX." },
+  { id: 1, name: "Maria Silva", email: "maria@example.com", phone: "11987654321", status: "Novo", amount: "R$ 4.500", date: "Hoje, 14:30", source: "Instagram Ads", notes: "Cliente interessada num financiamento de 48x. Quer dar o carro na troca.", tradeIn: "Honda Civic EXL 2.0 2020" },
+  { id: 2, name: "João Pedro", email: "joao@example.com", phone: "11912345678", status: "Em Contato", amount: "R$ 1.200", date: "Hoje, 10:15", source: "Google Busca", notes: "Pediu retorno amanhã pela manhã.", tradeIn: "VW Gol 1.0 2015" },
+  { id: 3, name: "Carla Santos", email: "carla@example.com", phone: "21999998888", status: "Convertido", amount: "R$ 8.900", date: "Ontem, 16:45", source: "Indicação", notes: "Contrato assinado.", tradeIn: null },
+  { id: 4, name: "Roberto Alves", email: "roberto@example.com", phone: "31977776666", status: "Novo", amount: "R$ 3.400", date: "Ontem, 09:20", source: "Facebook Ads", notes: "Dúvida sobre formas de pagamento.", tradeIn: "Toyota Corolla XEi 2019" },
+  { id: 5, name: "Fernanda Costa", email: "fernanda@example.com", phone: "41966665555", status: "Perdido", amount: "R$ 5.600", date: "12 Mai, 11:00", source: "Google Busca", notes: "Achou caro no momento.", tradeIn: null },
+  { id: 6, name: "Lucas Mendes", email: "lucas@example.com", phone: "51955554444", status: "Convertido", amount: "R$ 2.100", date: "11 Mai, 14:10", source: "Instagram Ads", notes: "Pagamento aprovado via PIX.", tradeIn: "Jeep Compass Longitude 2022" },
 ];
 
 const CHART_DATA = [
@@ -48,6 +48,13 @@ export default function Dashboard() {
     "Em Contato": "bg-blue-500/10 text-blue-400 border-blue-500/20",
     "Convertido": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     "Perdido": "bg-rose-500/10 text-rose-400 border-rose-500/20",
+  };
+
+  // Generate a random FIPE value for demo purposes when a lead has a trade-in car
+  const getFipeValue = (model: string) => {
+    const hash = model.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
+    const price = Math.abs(hash % 100) + 40; 
+    return `R$ ${price}.000,00`;
   };
 
   return (
@@ -307,51 +314,102 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Lead Details Modal */}
+        {/* Lead Details Modal with Free API Integrations */}
         <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-          <DialogContent className="sm:max-w-[425px] bg-zinc-950 border-white/10 text-white">
-            <DialogHeader>
-              <DialogTitle>Detalhes do Lead</DialogTitle>
-              <DialogDescription className="text-zinc-400">
-                Informações completas de contato e histórico.
-              </DialogDescription>
-            </DialogHeader>
-            {selectedLead && (
-              <div className="grid gap-4 py-4">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-16 h-16 rounded-full bg-primary/20 text-primary flex items-center justify-center text-2xl font-bold border border-primary/30">
-                    {selectedLead.name.charAt(0)}
+          <DialogContent className="sm:max-w-[450px] bg-zinc-950 border-white/10 text-white p-0 overflow-hidden">
+            <div className="p-6">
+              <DialogHeader className="mb-4">
+                <DialogTitle>Detalhes do Lead</DialogTitle>
+                <DialogDescription className="text-zinc-400">
+                  Informações de contato e inteligência de vendas.
+                </DialogDescription>
+              </DialogHeader>
+              
+              {selectedLead && (
+                <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className="w-16 h-16 rounded-full bg-primary/20 text-primary flex items-center justify-center text-2xl font-bold border border-primary/30">
+                      {selectedLead.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">{selectedLead.name}</h3>
+                      <Badge variant="outline" className={`${statusColors[selectedLead.status as keyof typeof statusColors]} mt-1`}>
+                        {selectedLead.status}
+                      </Badge>
+                    </div>
                   </div>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-xs text-zinc-500 uppercase tracking-wider mb-1 block">Contato</Label>
+                      <div className="flex gap-2">
+                        <Input disabled value={selectedLead.phone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")} className="bg-white/5 border-white/10 text-white font-medium flex-1" />
+                        <Button 
+                          className="bg-[#25D366] hover:bg-[#25D366]/90 text-white shadow-[0_0_15px_rgba(37,211,102,0.3)] transition-all" 
+                          size="icon"
+                          title="Chamar no WhatsApp"
+                          onClick={() => window.open(`https://wa.me/55${selectedLead.phone}?text=Olá ${selectedLead.name.split(' ')[0]}, tudo bem? Sou da concessionária e recebi seu interesse.`, '_blank')}
+                        >
+                          <MessageCircle className="w-5 h-5" />
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-xs text-zinc-500 uppercase tracking-wider mb-1 block">E-mail e Origem</Label>
+                      <div className="flex gap-2">
+                        <Input disabled value={selectedLead.email} className="bg-white/5 border-white/10 text-white flex-1 text-sm" />
+                        <Input disabled value={selectedLead.source} className="bg-white/5 border-white/10 text-zinc-400 w-1/3 text-sm text-center" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AUTOSPEED AI & FIPE (Free Public API Simulation) */}
+                  {selectedLead.tradeIn && (
+                    <div className="mt-4 p-4 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 border border-white/10 relative overflow-hidden group">
+                      <div className="absolute top-0 left-0 w-1 h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]"></div>
+                      
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-blue-400 group-hover:animate-pulse" />
+                          <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Inteligência AutoSpeed</span>
+                        </div>
+                        <Badge variant="outline" className="bg-blue-500/10 text-blue-300 border-blue-500/20 text-[10px]">
+                          FIPE API
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-blue-500/10 rounded-lg">
+                            <Car className="w-5 h-5 text-blue-400" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-zinc-400 uppercase">Veículo na Troca</p>
+                            <p className="text-sm font-semibold text-white">{selectedLead.tradeIn}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[10px] text-emerald-400 font-medium uppercase tracking-wider">Preço FIPE</p>
+                          <p className="text-sm font-bold text-white">{getFipeValue(selectedLead.tradeIn)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div>
-                    <h3 className="text-lg font-bold">{selectedLead.name}</h3>
-                    <Badge variant="outline" className={`${statusColors[selectedLead.status as keyof typeof statusColors]} mt-1`}>
-                      {selectedLead.status}
-                    </Badge>
+                    <Label className="text-xs text-zinc-500 uppercase tracking-wider mb-1 block">Anotações do Cliente</Label>
+                    <div className="bg-white/5 border-white/10 rounded-md p-3 text-sm text-zinc-300 min-h-[80px]">
+                      {selectedLead.notes}
+                    </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-zinc-400">E-mail</Label>
-                  <Input disabled value={selectedLead.email} className="col-span-3 bg-white/5 border-white/10 text-white" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-zinc-400">Telefone</Label>
-                  <Input disabled value={selectedLead.phone} className="col-span-3 bg-white/5 border-white/10 text-white" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right text-zinc-400">Origem</Label>
-                  <Input disabled value={selectedLead.source} className="col-span-3 bg-white/5 border-white/10 text-white" />
-                </div>
-                <div className="grid grid-cols-4 items-start gap-4">
-                  <Label className="text-right text-zinc-400 mt-2">Anotações</Label>
-                  <div className="col-span-3 bg-white/5 border-white/10 rounded-md p-3 text-sm text-zinc-300 min-h-[80px]">
-                    {selectedLead.notes}
-                  </div>
-                </div>
-              </div>
-            )}
-            <DialogFooter className="sm:justify-between">
-              <Button variant="outline" className="border-white/10 text-white hover:bg-white/10">Marcar como Perdido</Button>
-              <Button className="bg-primary text-black hover:bg-primary/90">Iniciar Atendimento</Button>
+              )}
+            </div>
+            
+            <DialogFooter className="bg-zinc-900/50 p-4 border-t border-white/5 sm:justify-between">
+              <Button variant="ghost" className="text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10">Marcar como Perdido</Button>
+              <Button className="bg-primary text-black hover:bg-primary/90 font-bold">Avançar Negociação</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -458,6 +516,22 @@ export default function Dashboard() {
         )}
 
       </main>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      `}} />
     </div>
   );
 }
